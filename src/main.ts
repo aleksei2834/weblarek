@@ -3,11 +3,11 @@ import { Products } from "./components/base/Models/Products";
 import { Cart } from "./components/base/Models/Cart";
 import { Buyer } from "./components/base/Models/Buyer";
 import { Api } from "./components/base/Api";
-import { myApi } from "./components/base/Models/myApi";
+import { MyApi } from "./components/base/MyApi";
 import { API_URL } from "./utils/constants";
 
 const apiClient = new Api(API_URL);
-const api = new myApi(apiClient);
+const api = new MyApi(apiClient);
 
 console.log("Проверка методов каталога:");
 
@@ -79,15 +79,3 @@ console.log(buyerModel.validation());
 //     "c101ab44-ed99-4a54-990d-47aa2bb4e7d9",
 //   ],
 // });
-
-console.log('Финальная проверка');
-buyerModel.address = "Комсомольская, 5";
-buyerModel.email = "typescript@gmail.com";
-buyerModel.payment = "card";
-buyerModel.phone = "89501234567";
-cartModel.replace();
-cartModel.add(productsModel.products[0]);
-cartModel.add(productsModel.products[3]);
-cartModel.add(productsModel.products[5]);
-
-api.sendOrder(api.makeOrder(buyerModel.buyer, cartModel.totalSum(), cartModel.products))

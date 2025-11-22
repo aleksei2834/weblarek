@@ -108,14 +108,14 @@ Presenter - презентер содержит основную логику п
 
 #### Данные
 
-interface IProduct {
-id: string,
-description: string,
-image: string,
-title: string,
-category: string,
-price: number | null
-}
+`interface IProduct {` - тип объекта продукта
+`id: string,` - идентификатор продукта
+`description: string,`
+`image: string,`
+`title: string,`
+`category: string,`
+`price: number | null`
+`}`
 
 `type TPayment = 'cash' | 'card' | ''` - выбор оплаты (карта или наличные)
 

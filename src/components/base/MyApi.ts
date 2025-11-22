@@ -1,12 +1,11 @@
-import { IApi, IProduct } from "../../../types";
+import { IApi } from "../../types";
 import {
   IResponse,
   IOrderRequest,
-  IOrderResponse,
-  IBuyer
-} from "../../../types";
+  IOrderResponse
+} from "../../types";
 
-export class myApi {
+export class MyApi {
   protected api: IApi;
 
   constructor(api: IApi) {
@@ -36,14 +35,4 @@ export class myApi {
       throw err;
     }
   }
-
-  makeOrder(buyerData: IBuyer, totalSum: number, items: IProduct[]): IOrderRequest {
-     
-    const data: IOrderRequest= {
-      ...buyerData,
-      total: totalSum,
-      items: items.map(item => item.id)
-     }     
-     return data;
-  }
-}
+}    
