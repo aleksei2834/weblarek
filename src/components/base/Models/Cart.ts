@@ -9,7 +9,9 @@ export class Cart {
 
   add(product: IProduct): void {
     // Добавление товара в корзину
-    this._products?.push(product);
+    if (product !== undefined) {
+      this._products?.push(product);
+    }
   }
 
   delete(product: IProduct): void {
