@@ -110,28 +110,28 @@ Presenter - презентер содержит основную логику п
 
 `interface IProduct {` - тип объекта продукта
 `id: string,` - идентификатор продукта
-`description: string,`
-`image: string,`
-`title: string,`
-`category: string,`
-`price: number | null`
+`description: string,` - описание продукта
+`image: string,` - картинка продукта
+`title: string,` - название продукта
+`category: string,` - категория продукта
+`price: number | null` - цена продукта
 `}`
 
 `type TPayment = 'cash' | 'card' | ''` - выбор оплаты (карта или наличные)
 
-interface IBuyer {
-payment: TPayment,
-address: string,
-email: string,
-phone: string
-}
+`interface IBuyer {` - тип объекта покупателя
+`payment: TPayment,` - способ оплаты
+`address: string,` - адрес покупателя
+`email: string,` - Email покупателя
+`phone: string` - телефон покупателя
+`}`
 
-interface IBuyerErrors {
-payment: undefined | string,
-email: undefined | string,
-phone: undefined | string,
-address: undefined | string
-}
+`interface IBuyerErrors {` - тип объекта ошибок данных покупателя
+`payment: undefined | string,` - наличие или отсутствие способа оплаты
+`email: undefined | string,` - наличие или отсутствие Email
+`phone: undefined | string,` - наличие или отсутствие телефона
+`address: undefined | string` - наличие или отсутствие адреса
+`}`
 
 #### Модели данных
 
@@ -197,4 +197,3 @@ address: undefined | string
 
 `async getProducts(): Promise<IResponse>` - в параметр принимает ендпоинт и делает GET-запрос на сервер. Возвращает промис с объектом с сервера.
 `async sendOrder(orderData: IOrderRequest): Promise<IOrderResponse>` - принимает объект с данными, которые будут переданы в JSON в теле запроса. Возвращает ответ с сервера.
-`makeOrder(buyerData: IBuyer, totalSum: number, items: IProduct[]): IOrderRequest` - принимает объект данных пользователя, общую сумму заказа, и список товаров. Возвращает готовый объект для передачи в sendOrder.
