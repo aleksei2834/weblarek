@@ -197,3 +197,154 @@ Presenter - презентер содержит основную логику п
 
 `async getProducts(): Promise<IResponse>` - в параметр принимает ендпоинт и делает GET-запрос на сервер. Возвращает промис с объектом с сервера.
 `async sendOrder(orderData: IOrderRequest): Promise<IOrderResponse>` - принимает объект с данными, которые будут переданы в JSON в теле запроса. Возвращает ответ с сервера.
+
+#### Слой отображения
+
+##### Класс Header
+
+Взаимодействует с элементами в блоке header.
+
+Поля класса:
+`basketButton: HTMLButtonElement` - кнопка корзины
+`counterElement: HTMLElement` - счетчик товаров в корзине
+
+Методы класса:
+`set counter(value: number)`- изменение счетчика корзины
+
+##### Класс Galery
+
+Взаимодействует с элементами класса gallery
+
+Поля класса:
+`catalogElement: HTMLElement` - список карточек
+
+Методы класса:
+`set catalog(items: HTMLElement[])` - отображение списка карточек
+
+##### Класс Modal
+
+Общий класс для всех модальных окон
+
+Поля класса:
+`closeButton: HTMLButtonElement` - кнопка закрытия модального окна
+`modalContent: HTMLElement` - содержимое модального окна
+
+Методы класса:
+`set modalContent` - отображение содержимого
+
+##### Класс Success
+
+Отображает окно успешной покупки
+
+Поля класса:
+`orderDescription: HTMLElement` - информация о покупке
+`successClose: HTMLButtonElement` - кнопка для закрытия модального окна
+
+##### Класс CardCatalog
+
+Отображает карточку в каталоге
+
+Поля класса:
+`category: HTMLElement` - элемент с категорией карточки
+`title: HTMLElement` - название карточки
+`image: HTMLElement` - картинка карточки
+`price: HTMLElement` - цена карточки
+
+Методы класса:
+`set category(value: string)` - отображение категории
+`set title(value: string)` - отображение названия
+`set image(value: string)` - отображение картинки
+`set price(value: string)` - отображение цены
+
+##### Класс CardPreview
+
+Отображает подробное содержимое карточки
+
+Поля класса:
+`image: HTMLElement` - картинка товара
+`category: HTMLElement` - категория товара
+`title: HTMLElement` - название товара
+`text: HTMLElement` - текст товара
+`cardButton: HTMLButtonElement` - кнопка добавления товара в корзину
+`price: HTMLElement` - цена товара
+
+Методы класса:
+`set category(value: string)` - отображение категории
+`set title(value: string)` - отображение названия
+`set image(value: string)` - отображение картинки
+`set price(value: string)` - отображение цены
+`set text(value: string)` - отображение текста
+`addToBasket(): void` - добавление карточки в корзину
+
+##### Класс CardBasket
+
+Отображает карточку в корзине
+
+Поля класса:
+`index: HTMLElement` - порядковый номер карточки в корзине
+`title: HTMLElement` - название карточки
+`price: HTMLElement` - цена карточки
+`deleteButton: HTMLButtonElement` - кнопка удаление карточки из корзины
+
+Методы класса:
+`set index(value: string)` - отображение индекса
+`set title(value: string)` - отображение названия
+`set price(value: string)` - отображение цены
+`delete(): void` - удаление карточки из корзины
+
+##### Класс Basket
+
+Окно корзины
+
+Отображает корзину
+
+Поля класса:
+`basketList: HTMLElement` - список карточек в корзине
+`basketButton: HTMLButtonElement` - кнопка оформления заказа
+`price: HTMLElement` - общая стоимость корзины
+
+Методы класса:
+`set basketList: HTMLElement[]` - отображение списка карточек в корзине
+`set price(value: string)` - отображение стоимости корзины
+`toBuy()` - оформление покупки
+
+##### Класс Order
+
+Окно выбора способа оплаты и ввода адреса
+
+Поля класса:
+`cardButton: HTMLButtonElement` - кнопка оплаты картой
+`cashButton: HTMLButtonElement` - кнопка оплаты наличными
+`addressInput: HTMLInputElement` - ввод адреса
+`orderButton: HTMLButtonElement` - кнопка подтверждения
+`formErrors: HTMLElement` - поле для вывода ошибок валидации
+
+Методы класса:
+
+##### Класс Contacts
+
+Окно ввода E-mail и номера телефона
+
+Поля класса:
+`emailInput: HTMLInputElement` - ввод E-mail
+`phoneInput: HTMLInputElement` - ввод номера телефона
+`orderButton: HTMLButtonElement` - кнопка подтверждения
+`formErrors: HTMLElement` - поле для вывода ошибок валидации
+
+##### Общие классы
+
+###### Класс Card
+
+Общий класс для всех классов, отображающих карточки
+
+Методы класса:
+`set title(value: string)` - отображение названия
+`set price(value: string)` - отображение цены
+
+###### Класс Form
+
+Общий класс для классов с формами
+
+Методы класса:
+`formErrors: HTMLElement` - поле для вывода ошибок валидации
+`orderButton: HTMLButtonElement` - кнопка подтверждения
