@@ -211,7 +211,7 @@ Presenter - презентер содержит основную логику п
 Методы класса:
 `set counter(value: number)`- изменение счетчика корзины
 
-##### Класс Galery
+##### Класс Gallery
 
 Взаимодействует с элементами класса gallery
 
@@ -291,12 +291,11 @@ Presenter - презентер содержит основную логику п
 Поля класса:
 `basketList: HTMLElement` - список карточек в корзине
 `basketButton: HTMLButtonElement` - кнопка оформления заказа
-`price: HTMLElement` - общая стоимость корзины
+`basketPrice: HTMLElement` - общая стоимость корзины
 
 Методы класса:
-`set basketList: HTMLElement[]` - отображение списка карточек в корзине
-`set price(value: string)` - отображение стоимости корзины
-`toBuy()` - оформление покупки
+`set items(items: HTMLElement[])` - отображение списка карточек в корзине
+`set price(value: number)` - отображение стоимости корзины
 
 ##### Класс Order
 
