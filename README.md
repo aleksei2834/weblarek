@@ -240,21 +240,20 @@ Presenter - презентер содержит основную логику п
 `orderDescription: HTMLElement` - информация о покупке
 `successClose: HTMLButtonElement` - кнопка для закрытия модального окна
 
+Методы класса:
+`set price(value: string)` - отображение общей стоимости покупки
+
 ##### Класс CardCatalog
 
 Отображает карточку в каталоге
 
 Поля класса:
 `category: HTMLElement` - элемент с категорией карточки
-`title: HTMLElement` - название карточки
 `image: HTMLElement` - картинка карточки
-`price: HTMLElement` - цена карточки
 
 Методы класса:
 `set category(value: string)` - отображение категории
-`set title(value: string)` - отображение названия
 `set image(value: string)` - отображение картинки
-`set price(value: string)` - отображение цены
 
 ##### Класс CardPreview
 
@@ -263,16 +262,12 @@ Presenter - презентер содержит основную логику п
 Поля класса:
 `image: HTMLElement` - картинка товара
 `category: HTMLElement` - категория товара
-`title: HTMLElement` - название товара
 `text: HTMLElement` - текст товара
 `cardButton: HTMLButtonElement` - кнопка добавления товара в корзину
-`price: HTMLElement` - цена товара
 
 Методы класса:
 `set category(value: string)` - отображение категории
-`set title(value: string)` - отображение названия
 `set image(value: string)` - отображение картинки
-`set price(value: string)` - отображение цены
 `set text(value: string)` - отображение текста
 `addToBasket(): void` - добавление карточки в корзину
 
@@ -282,14 +277,10 @@ Presenter - презентер содержит основную логику п
 
 Поля класса:
 `index: HTMLElement` - порядковый номер карточки в корзине
-`title: HTMLElement` - название карточки
-`price: HTMLElement` - цена карточки
 `deleteButton: HTMLButtonElement` - кнопка удаление карточки из корзины
 
 Методы класса:
 `set index(value: string)` - отображение индекса
-`set title(value: string)` - отображение названия
-`set price(value: string)` - отображение цены
 `delete(): void` - удаление карточки из корзины
 
 ##### Класс Basket
