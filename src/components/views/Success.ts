@@ -3,7 +3,7 @@ import { Component } from "../base/Component";
 import { IEvents } from "../base/Events";
 
 interface ISuccess {
-  price: string;
+  price: number;
 }
 
 export class Success extends Component<ISuccess> {
@@ -21,7 +21,7 @@ export class Success extends Component<ISuccess> {
     })
   }
 
-  set price(value: string) {
+  set price(value: number) {
     this.orderDescription.textContent = `Списано ${value} синапсов`
   }
 }

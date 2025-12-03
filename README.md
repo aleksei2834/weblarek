@@ -241,15 +241,15 @@ Presenter - презентер содержит основную логику п
 `successClose: HTMLButtonElement` - кнопка для закрытия модального окна
 
 Методы класса:
-`set price(value: string)` - отображение общей стоимости покупки
+`set price(value: number)` - отображение общей стоимости покупки
 
 ##### Класс CardCatalog
 
 Отображает карточку в каталоге
 
 Поля класса:
-`category: HTMLElement` - элемент с категорией карточки
-`image: HTMLElement` - картинка карточки
+`cardCategory: HTMLElement` - элемент с категорией карточки
+`cardImage: HTMLImageElement` - картинка карточки
 
 Методы класса:
 `set category(value: string)` - отображение категории
@@ -260,9 +260,9 @@ Presenter - презентер содержит основную логику п
 Отображает подробное содержимое карточки
 
 Поля класса:
-`image: HTMLElement` - картинка товара
-`category: HTMLElement` - категория товара
-`text: HTMLElement` - текст товара
+`cardImage: HTMLImageElement` - картинка товара
+`cardCategory: HTMLElement` - категория товара
+`cardText: HTMLElement` - текст товара
 `cardButton: HTMLButtonElement` - кнопка добавления товара в корзину
 
 Методы класса:
@@ -328,9 +328,13 @@ Presenter - презентер содержит основную логику п
 
 Общий класс для всех классов, отображающих карточки
 
+Поля класса:
+`cardPrice: HTMLElement` - цена товара
+`cardTitle: HTMLElement` - название карточки
+
 Методы класса:
 `set title(value: string)` - отображение названия
-`set price(value: string)` - отображение цены
+`set price(value: number)` - отображение цены
 
 ###### Класс Form
 
