@@ -230,7 +230,7 @@ Presenter - презентер содержит основную логику п
 `modalContent: HTMLElement` - содержимое модального окна
 
 Методы класса:
-`set modalContent` - отображение содержимого
+`set content(content: HTMLElement)` - отображение содержимого
 
 ##### Класс Success
 
