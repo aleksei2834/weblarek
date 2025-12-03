@@ -338,6 +338,10 @@ Presenter - презентер содержит основную логику п
 
 Общий класс для классов с формами
 
-Методы класса:
+Поля класса:
 `formErrors: HTMLElement` - поле для вывода ошибок валидации
-`orderButton: HTMLButtonElement` - кнопка подтверждения
+`formButton: HTNLButtonElement` - кнопка отправки данных
+
+Методы класса:
+`set errors(errors: IErrors)`
+`set valid(isValid: boolean)`
