@@ -306,7 +306,6 @@ Presenter - презентер содержит основную логику п
 `cashButton: HTMLButtonElement` - кнопка оплаты наличными
 `addressInput: HTMLInputElement` - ввод адреса
 `orderButton: HTMLButtonElement` - кнопка подтверждения
-`formErrors: HTMLElement` - поле для вывода ошибок валидации
 
 Методы класса:
 

@@ -1,9 +1,10 @@
 import { IProduct } from "../../../types";
+import { IEvents } from "../Events";
 
 export class Cart {
   protected _products: IProduct[];
 
-  constructor() {
+  constructor(protected events: IEvents) {
     this._products = [];
   }
 
@@ -12,6 +13,8 @@ export class Cart {
     if (product !== undefined) {
       this._products?.push(product);
     }
+    this.events.emit('basket:changed');
+    this.events.emit('card:changed')
   }
 
   delete(product: IProduct): void {
@@ -23,6 +26,8 @@ export class Cart {
         this._products?.splice(index, 1); // Удаление товара по его индексу
       } else console.log("error"); // Если не найден - error
     }
+    this.events.emit('basket:changed');
+    this.events.emit('card:changed');
   }
 
   total(): number {

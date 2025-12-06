@@ -10,10 +10,11 @@ interface IErrors {
 }
 
 interface IForm {
-  errors: IErrors
+  errors: IErrors,
+  valid: boolean
 } 
 
-export class Form extends Component<IForm> {
+export class Form<T> extends Component<IForm> {
   protected formErrors: HTMLElement;
   protected formButton: HTMLButtonElement;
 

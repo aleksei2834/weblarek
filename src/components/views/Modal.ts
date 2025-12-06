@@ -22,6 +22,16 @@ export class Modal extends Component<IModal> {
   }
 
   set content(content: HTMLElement) { 
-    this.container.append(content);
+    const modalContent = ensureElement('.modal__content', this.container);
+    modalContent.innerHTML = ''
+    modalContent.append(content);
+  }
+
+  open(): void {
+    this.container.classList.add('modal_active')
+  }
+
+  close(): void {
+    this.container.classList.remove('modal_active')
   }
 }

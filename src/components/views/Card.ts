@@ -3,7 +3,7 @@ import { Component } from "../base/Component";
 
 interface ICard {
   title: string,
-  price: number,
+  price: number | null,
 }
 
 export class Card<T> extends Component<ICard & T> {
@@ -21,7 +21,9 @@ export class Card<T> extends Component<ICard & T> {
     this.cardTitle.textContent = value;
   }
 
-  set price(value: number) {
-    this.cardPrice.textContent = `${value} синапсов`;
+  set price(value: number | null) {
+    if (typeof value == "number") {
+      this.cardPrice.textContent = `${value} синапсов`;
+    } else this.cardPrice.textContent = 'Недоступно'
   }
 }
