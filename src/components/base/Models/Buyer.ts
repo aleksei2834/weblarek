@@ -1,4 +1,5 @@
 import { TPayment, IBuyer, IBuyerErrors } from "../../../types";
+import { IEvents } from "../Events";
 
 export class Buyer implements IBuyer {
   protected _payment: TPayment | null;
@@ -6,7 +7,7 @@ export class Buyer implements IBuyer {
   protected _phone: string;
   protected _email: string;
 
-  constructor() {
+  constructor(protected events: IEvents) {
     this._payment = null;
     this._address = "";
     this._phone = "";
@@ -19,6 +20,7 @@ export class Buyer implements IBuyer {
 
   set payment(payment: TPayment) {
     this._payment = payment;
+    this.events.emit('payment:selected')
   }
 
   set email(email: string) {

@@ -14,7 +14,6 @@ export class Cart {
       this._products?.push(product);
     }
     this.events.emit('basket:changed');
-    this.events.emit('card:changed')
   }
 
   delete(product: IProduct): void {
@@ -27,7 +26,7 @@ export class Cart {
       } else console.log("error"); // Если не найден - error
     }
     this.events.emit('basket:changed');
-    this.events.emit('card:changed');
+    this.events.emit('card:deleted')
   }
 
   total(): number {

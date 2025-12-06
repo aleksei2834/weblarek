@@ -16,8 +16,9 @@ import { CardCatalog } from "./components/views/CardCatalog";
 import { Card } from "./components/views/Card";
 import { Component } from "./components/base/Component";
 import { CardPreview } from "./components/views/CardPreview";
-import { IProduct } from "./types";
+import { IProduct, TPayment } from "./types";
 import { CardBasket } from "./components/views/CardBasket";
+import { Order } from "./components/views/Order";
 
 const apiClient = new Api(API_URL);
 const api = new MyApi(apiClient);
@@ -69,7 +70,7 @@ cartModel.replace();
 
 console.log("Проверка методов покупателя");
 
-const buyerModel = new Buyer();
+const buyerModel = new Buyer(events);
 // buyerModel.address = "Комсомольская, 5";
 // buyerModel.email = "typescript@gmail.com";
 
@@ -110,11 +111,11 @@ console.log(buyerModel.validation());
 
 console.log('Проверка отправки заказа:');
 
-buyerModel.address = "Комсомольская, 5";
-buyerModel.email = "typescript@gmail.com";
-buyerModel.payment = "card";
-buyerModel.phone = "89501234567";
-console.log('Товары в корзине:', buyerModel.buyer);
+// buyerModel.address = "Комсомольская, 5";
+// buyerModel.email = "typescript@gmail.com";
+// buyerModel.payment = "card";
+// buyerModel.phone = "89501234567";
+// console.log('Товары в корзине:', buyerModel.buyer);
 
 // Экземпляры классов
 
@@ -190,6 +191,12 @@ events.on('card:open', () => {
     cardPreview.button = 'Недоступно';
     cardPreview.disableButton();
   }
+  if (cartModel.products.includes(product)) {
+    cardPreview.button = 'Удалить из корзины'
+  }
+  if (!cartModel.products.includes(product)) {
+    cardPreview.button = 'Купить'
+  }
 
   modal.content = template;
   modal.open();
@@ -203,24 +210,8 @@ events.on('card:basket', () => {
   } else {
     cartModel.add(productsModel.product);
   }
-  events.emit('basket:changed')
-})
-
-events.on('card:changed', () => {
-    const product = productsModel.product;
-  if (!product) return;
-
-  const template = cloneTemplate('#card-preview');
-
-  const cardPreview = new CardPreview(events, template);
-  cardPreview.render(product);
-  if (cartModel.products.includes(product)) {
-    cardPreview.button = 'Удалить из корзины';
-  }
-  if (!cartModel.products.includes(product)) {
-    cardPreview.button = 'Купить';
-  }
-  modal.content = template;
+  events.emit('basket:changed');
+  modal.close()
 })
 
 // Изменение корзины
@@ -236,7 +227,28 @@ events.on('card:delete', (cardElement: HTMLElement) => {
   
   cartModel.delete(cartModel.products[Number(index) - 1]);
   console.log(cartModel.products);
-  
 })
 
+events.on('card:deleted', () => {
+  events.emit('basket:open')
+})
 
+events.on('basket:submit', () => {
+  const order = new Order(events, cloneTemplate('#order'));
+  modal.content = order.render();
+})
+
+events.on('button:selected', (button) => {
+  buyerModel.payment = button.selectedButton;  
+})
+
+events.on('payment:selected', () => {
+  const pay = buyerModel.buyer.payment;
+  const buttons = ensureAllElements<HTMLButtonElement>('.button_alt');
+  buttons.forEach(button => {
+    if (button.name == pay) {
+      button.classList.add('button_alt-active');
+      console.log(button);
+    }
+  })
+})
