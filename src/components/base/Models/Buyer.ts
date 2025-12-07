@@ -20,7 +20,7 @@ export class Buyer implements IBuyer {
 
   set payment(payment: TPayment) {
     this._payment = payment;
-    this.events.emit('payment:selected')
+    this.events.emit('payment:selected', {payment})
   }
 
   set email(email: string) {

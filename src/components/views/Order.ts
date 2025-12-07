@@ -8,8 +8,8 @@ interface IOrder {
 }
 
 export class Order extends Component<IOrder> {
-  protected paymentButtons: HTMLButtonElement[];
-  protected addressInput: HTMLInputElement;
+  public paymentButtons: HTMLButtonElement[];
+  public addressInput: HTMLInputElement;
   
   constructor(protected events: IEvents, container: HTMLElement) {
     super(container);
@@ -23,13 +23,23 @@ export class Order extends Component<IOrder> {
       })
     })
 
+    this.addressInput.addEventListener('input', () => {
+      events.emit('address:input');
+    })
   }
 
   set selectedButton (button: HTMLButtonElement) {
-    button.classList.toggle('button_alt-active')
+    // Снимаем активный класс со всех кнопок
+  this.paymentButtons.forEach(btn => btn.classList.remove('button_alt-active'));
+
+  // Добавляем активный класс только если его ещё нет
+  if (!button.classList.contains('button_alt-active')) {
+    button.classList.add('button_alt-active');
+  }
   }
 
   set address(value: string) {
     this.addressInput.textContent = value;
   }
+
 }
