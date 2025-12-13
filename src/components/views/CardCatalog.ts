@@ -2,7 +2,7 @@ import { categoryMap } from "../../utils/constants";
 import { ensureElement } from "../../utils/utils";
 import { Card } from "./Card";
 
-interface ICardActions {
+export interface ICardActions {
   onClick: () => void
 }
 

@@ -17,16 +17,9 @@ export class Cart {
   }
 
   delete(product: IProduct): void {
-    // Удаление товара из корзины
-    const index = this._products?.findIndex((item) => item == product); // Поиск индекс товара
-    if (typeof index == "number") {
-      // в массиве
-      if (index !== -1) {
-        this._products?.splice(index, 1); // Удаление товара по его индексу
-      } else console.log("error"); // Если не найден - error
-    }
+
+    this._products = this._products.filter(item => item.id !== product.id)
     this.events.emit('basket:changed');
-    this.events.emit('card:deleted')
   }
 
   total(): number {
@@ -56,7 +49,8 @@ export class Cart {
     } else return false;
   }
 
-  replace(): IProduct[] {
-    return this._products?.splice(0, this._products.length);
+  replace(): void {
+    this._products?.splice(0, this._products.length);
+    this.events.emit('basket:changed');
   }
 }

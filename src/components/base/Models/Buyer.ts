@@ -52,10 +52,10 @@ export class Buyer implements IBuyer {
 
   validation(): IBuyerErrors {
     const buyerErrors: IBuyerErrors = {
-      payment: undefined,
-      email: undefined,
-      phone: undefined,
-      address: undefined,
+      payment: '',
+      email: '',
+      phone: '',
+      address: '',
     };
 
     if (this._payment === null) {
