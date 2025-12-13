@@ -1,6 +1,7 @@
 import { ensureElement } from "../../utils/utils";
 import { IEvents } from "../base/Events";
 import { Card } from "./Card";
+import { categoryMap } from "../../utils/constants";
 
 interface ICardPreview {
   category: string,
@@ -30,6 +31,9 @@ export class CardPreview extends Card<ICardPreview> {
 
   set category(value: string) {
     this.cardCategory.textContent = value;
+    this.cardCategory.classList.toggle('card__category_other');
+    this.cardCategory.classList.add(categoryMap[value]);
+        
   }
 
   set image(value:string) {

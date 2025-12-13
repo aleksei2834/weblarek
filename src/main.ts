@@ -7,26 +7,28 @@ import { MyApi } from "./components/base/MyApi";
 import { API_URL, CDN_URL } from "./utils/constants";
 import { apiProducts } from "./utils/data";
 import { Header } from "./components/views/Header";
-import { cloneTemplate, ensureAllElements, ensureElement } from "./utils/utils";
+import { cloneTemplate, ensureElement } from "./utils/utils";
 import { EventEmitter } from "./components/base/Events";
 import { Gallery } from "./components/views/Gallery";
 import { Basket } from "./components/views/Basket";
 import { Modal } from "./components/views/Modal";
 import { CardCatalog } from "./components/views/CardCatalog";
-import { Card } from "./components/views/Card";
-import { Component } from "./components/base/Component";
 import { CardPreview } from "./components/views/CardPreview";
 import { IProduct, TPayment } from "./types";
 import { CardBasket } from "./components/views/CardBasket";
 import { Order } from "./components/views/Order";
+import { Contacts } from "./components/views/Contacts";
 
+// Api
 const apiClient = new Api(API_URL);
 const api = new MyApi(apiClient);
 const events = new EventEmitter();
 
-console.log("Проверка методов каталога:");
-
+// Создание экземпляров классов модели
 const productsModel = new Products(events);
+const cartModel = new Cart(events);
+const buyerModel = new Buyer(events);
+
 productsModel.products = apiProducts.items;
 api
   .getProducts()
@@ -38,59 +40,7 @@ api
   .catch((err) => {
     console.log("Ошибка при получении товаров:", err);
   });
-console.log("Товары:", productsModel.products);
 
-// productsModel.product = "c101ab44-ed99-4a54-990d-47aa2bb4e7d9";
-// console.log('Выбранный продукт:', productsModel.product);
-
-console.log("Проверка методов корзины");
-
-const cartModel = new Cart(events);
-
-cartModel.add(productsModel.products[1]);
-cartModel.add(productsModel.products[3]);
-cartModel.add(productsModel.products[4]);
-cartModel.add(productsModel.products[6]);
-console.log("Продукты в корзине:", cartModel.products);
-console.log("Количество товаров в корзине:", cartModel.total());
-console.log("Общая стоимость корзины:", cartModel.totalSum());
-console.log(
-  cartModel.isAvailable("Наличие" + "c101ab44-ed99-4a54-990d-47aa2bb4e7d9")
-);
-console.log(
-  cartModel.isAvailable("Наличие" + "854cef69-976d-4c2a-a18c-2aa45046c390")
-);
-
-cartModel.delete(productsModel.products[1]);
-cartModel.delete(productsModel.products[4]);
-console.log(cartModel.products);
-console.log(cartModel.total());
-console.log(cartModel.totalSum());
-
-cartModel.replace();
-console.log(cartModel.products);
-console.log(cartModel.total());
-console.log(cartModel.totalSum());
-cartModel.replace();
-
-console.log("Проверка методов покупателя");
-
-const buyerModel = new Buyer(events);
-// buyerModel.address = "Комсомольская, 5";
-// buyerModel.email = "typescript@gmail.com";
-
-// console.log(buyerModel.buyer);
-// console.log(buyerModel.validation());
-
-// buyerModel.payment = "card";
-// buyerModel.phone = "89501234567";
-
-// console.log(buyerModel.buyer);
-// console.log(buyerModel.validation());
-
-// cartModel.add(productsModel.products[0]);
-// cartModel.add(productsModel.products[3])
-// cartModel.replace();
 
 // api.sendOrder({...buyerModel.buyer,
 //                total: cartModel.totalSum(),
@@ -104,32 +54,14 @@ const buyerModel = new Buyer(events);
 //                 console.error("Ошибка заказа:", err)
 //                })
 
-buyerModel.replace();
-
-console.log(buyerModel.buyer);
-console.log(buyerModel.validation());
-
-buyerModel.address = "     ";
-buyerModel.email = "     ";
-buyerModel.phone = "     ";
-console.log(buyerModel.validation());
-
-console.log("Проверка отправки заказа:");
-
-// buyerModel.address = "Комсомольская, 5";
-// buyerModel.email = "typescript@gmail.com";
-// buyerModel.payment = "card";
-// buyerModel.phone = "89501234567";
-// console.log('Товары в корзине:', buyerModel.buyer);
-
 // Экземпляры классов
-
-const header = new Header(events, ensureElement(".header"));
-const modal = new Modal(events, ensureElement(".modal"));
+const header = new Header(events, ensureElement<HTMLElement>(".header"));
+const modal = new Modal(events, ensureElement<HTMLElement>(".modal"));
 const gallery = new Gallery(ensureElement(".gallery"));
 const basket = new Basket(events, cloneTemplate("#basket"));
 const cardBasket = new CardBasket(events, cloneTemplate("#card-basket"));
 const order = new Order(events, cloneTemplate('#order'));
+const contacts = new Contacts(events, cloneTemplate('#contacts'))
 
 // Модальное окно
 events.on("modal:close", () => {
@@ -140,16 +72,9 @@ events.on("modal:close", () => {
 header.render();
 events.on("basket:open", () => {
   const cards = cartModel.products.map((product, idx) => {
-    // 1. Клонируем шаблон
     const template = cloneTemplate("#card-basket");
-
-    // 2. Создаём карточку с этим клоном
     const cardInstance = new CardBasket(events, template);
-
-    // 3. Заполняем данными
     cardInstance.render(product);
-
-    // 4. Проставляем индекс вручную
     const indexElem = template.querySelector(".basket__item-index");
     if (indexElem) indexElem.textContent = String(idx + 1);
 
@@ -203,6 +128,7 @@ events.on("card:open", () => {
     cardPreview.button = "Купить";
   }
 
+  basket.buttonDisabled();
   modal.content = template;
   modal.open();
 });
@@ -239,15 +165,16 @@ events.on("card:deleted", () => {
 
 events.on("basket:submit", () => {
   const order = new Order(events, cloneTemplate("#order"));
+
   modal.content = order.render();
 });
 
-events.on("button:selected", (button) => {
+events.on("button:selected", (button: {selectedButton: TPayment}) => {
   buyerModel.payment = button.selectedButton;
   console.log(buyerModel.buyer);
 });
 
-events.on("payment:selected", (payment) => {
+events.on("payment:selected", (payment: {payment: string}) => {
   
   modal.content = order.render();
 
@@ -259,11 +186,53 @@ events.on("payment:selected", (payment) => {
   if (buttonToActivate) {
     order.selectedButton = buttonToActivate;
   }
+
+  order.valid = (buyerModel.validation().address == undefined
+  && buyerModel.validation().payment == undefined);
 });
 
-events.on('address:input', () => {
-  if (order) {
-    buyerModel.address = order.addressInput.value;
-    console.log(buyerModel.buyer);
-  }
+events.on('address:input', (data: {address: string}) => {
+  buyerModel.address = data.address;
+  console.log(buyerModel.buyer);
+})
+
+events.on('address:changed', () => {
+  order.addressInput.value = buyerModel.buyer.address;
+  
+  order.valid = (buyerModel.validation().address == undefined
+  && buyerModel.validation().payment == undefined);
+})
+
+events.on('modal:open-contacts', () => {
+  const contacts = new Contacts(events, cloneTemplate('#contacts'))
+  modal.content = contacts.render();
+  console.log(contacts.render());
+  
+}) 
+
+events.on('email:input', (data: {email: string}) => {
+  buyerModel.email = data.email;
+})
+
+events.on('email:changed', () => {
+  contacts.emailInput.value = buyerModel.buyer.email;
+
+  contacts.valid = (buyerModel.validation().email === undefined
+  && buyerModel.validation().phone === undefined);
+})
+
+events.on('phone:input', (data: {phone: string}) => {
+  buyerModel.phone = data.phone;
+  console.log(buyerModel.validation());
+  
+})
+
+events.on('phone:changed', () => {
+  contacts.phoneInput.value = buyerModel.buyer.phone;
+
+  contacts.valid = (buyerModel.validation().email === undefined
+  && buyerModel.validation().phone === undefined);
+  console.log(contacts.formButton);
+  contacts.render()
+  
 })

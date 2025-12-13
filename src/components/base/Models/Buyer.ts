@@ -16,6 +16,7 @@ export class Buyer implements IBuyer {
 
   set phone(phone: string) {
     this._phone = phone;
+    this.events.emit('phone:changed')
   }
 
   set payment(payment: TPayment) {
@@ -25,10 +26,12 @@ export class Buyer implements IBuyer {
 
   set email(email: string) {
     this._email = email;
+    this.events.emit('email:changed')
   }
 
   set address(address: string) {
     this._address = address;
+    this.events.emit('address:changed')
   }
 
   get buyer(): IBuyer {

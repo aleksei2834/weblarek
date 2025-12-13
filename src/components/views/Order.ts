@@ -1,18 +1,19 @@
 import { ensureAllElements, ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 import { IEvents } from "../base/Events";
+import { Form } from "./Form";
 
 interface IOrder {
   selectedButton: HTMLButtonElement,
   address: string
 }
 
-export class Order extends Component<IOrder> {
+export class Order extends Form<IOrder> {
   public paymentButtons: HTMLButtonElement[];
   public addressInput: HTMLInputElement;
   
   constructor(protected events: IEvents, container: HTMLElement) {
-    super(container);
+    super(events, container);
 
     this.paymentButtons = ensureAllElements('.button_alt', this.container);
     this.addressInput = ensureElement<HTMLInputElement>('.form__input', this.container);
@@ -24,7 +25,12 @@ export class Order extends Component<IOrder> {
     })
 
     this.addressInput.addEventListener('input', () => {
-      events.emit('address:input');
+      events.emit('address:input', {address: this.addressInput.value});
+    })
+
+    this.container.addEventListener('submit', (e) => {
+      e.preventDefault();
+      events.emit('modal:open-contacts');
     })
   }
 

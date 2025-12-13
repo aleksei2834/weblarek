@@ -25,10 +25,21 @@ export class Basket extends Component<IBasket> {
   }
 
   set items(items: HTMLElement[]) {
-    this.basketList.replaceChildren(...items)
+    this.basketList.replaceChildren(...items);
+    if (items.length) {
+      this.basketButton.disabled = false;
+    } else {
+      this.basketButton.disabled = true;
+    }
   }
 
   set price(value: number) {
     this.basketPrice.textContent = `${value} синапсов`
+  }
+
+  buttonDisabled(): void {
+    if (this.basketList.children.length == 0) {
+      this.basketButton.disabled = true;
+    }
   }
 }

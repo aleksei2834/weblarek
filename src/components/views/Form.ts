@@ -14,15 +14,16 @@ interface IForm {
   valid: boolean
 } 
 
-export class Form<T> extends Component<IForm> {
+export class Form<T> extends Component<IForm & T> {
   protected formErrors: HTMLElement;
-  protected formButton: HTMLButtonElement;
+  public formButton: HTMLButtonElement;
 
   constructor(protected events: IEvents, protected container: HTMLElement) {
     super(container);
 
     this.formErrors = ensureElement<HTMLElement>('.form__errors', this.container);
-    this.formButton = ensureElement<HTMLButtonElement>('.order__button', this.container);
+    this.formButton = ensureElement<HTMLButtonElement>('.button[type="submit"]', this.container);
+
   }
 
   set errors(error: string) {
@@ -30,8 +31,6 @@ export class Form<T> extends Component<IForm> {
   }
 
   set valid(isValid: boolean) {
-    if (isValid) {
-      this.formButton.disabled = false;
-    } else this.formButton.disabled = true;
+    this.formButton.disabled = !isValid;
   }
 }
