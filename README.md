@@ -264,12 +264,14 @@ Presenter - презентер содержит основную логику п
 `cardCategory: HTMLElement` - категория товара
 `cardText: HTMLElement` - текст товара
 `cardButton: HTMLButtonElement` - кнопка добавления товара в корзину
+`cardDescription: HTMLElement` - описание товара
 
 Методы класса:
 `set category(value: string)` - отображение категории
 `set image(value: string)` - отображение картинки
 `set text(value: string)` - отображение текста
 `addToBasket(): void` - добавление карточки в корзину
+`set description(value: string)` - отображение описания
 
 ##### Класс CardBasket
 
