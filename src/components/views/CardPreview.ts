@@ -8,7 +8,8 @@ interface ICardPreview {
   category: string,
   image: string,
   text: string,
-  button: 'Купить' | 'Удалить из корзины' | 'Недоступно' 
+  button: 'Купить' | 'Удалить из корзины' | 'Недоступно',
+  description: string,
 }
 
 export class CardPreview extends Card<ICardPreview> {
@@ -16,7 +17,8 @@ export class CardPreview extends Card<ICardPreview> {
   protected cardCategory: HTMLElement;
   protected cardText: HTMLElement;
   protected cardButton: HTMLButtonElement;
-  
+  protected cardDescription: HTMLElement;
+
   constructor(protected container: HTMLElement, protected actions: ICardActions) {
     super(container);
 
@@ -24,6 +26,7 @@ export class CardPreview extends Card<ICardPreview> {
     this.cardCategory = ensureElement<HTMLElement>('.card__category', this.container);
     this.cardText = ensureElement<HTMLElement>('.card__text', this.container);
     this.cardButton = ensureElement<HTMLButtonElement>('.card__button', this.container);
+    this.cardDescription = ensureElement<HTMLElement>('.card__text', this.container);
 
     this.cardButton.addEventListener('click', actions.onClick)
   }
@@ -45,6 +48,10 @@ export class CardPreview extends Card<ICardPreview> {
 
   set button(value: 'Купить' | 'Удалить из корзины' | 'Недоступно') {
     this.cardButton.textContent = value;
+  }
+
+  set description(value: string) {
+    this.cardDescription.textContent = value;
   }
 
   disableButton(): void {

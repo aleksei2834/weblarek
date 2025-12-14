@@ -89,11 +89,13 @@ events.on("card:open", () => {
   if (!product) return;
 
   const template = cloneTemplate("#card-preview");
-
+  
   const cardPreview = new CardPreview(template, {
     onClick: () => events.emit('card:basket')
   });
   cardPreview.render(product);
+  console.log(product);
+  
   if (product.price == null) {
     cardPreview.button = "Недоступно";
     cardPreview.disableButton();
@@ -118,7 +120,6 @@ events.on("card:basket", () => {
   } else {
     cartModel.add(productsModel.product);
   }
-  events.emit("basket:changed");
   modal.close();
 });
 
@@ -237,7 +238,7 @@ events.on("button:pay", () => {
                .then(products => {
                 console.log("ID заказа:", products.id)
                 console.log("Общая сумма заказа:", products.total);
-
+                cartModel.replace();
                })
                .catch(err => {
                 console.error("Ошибка заказа:", err)
@@ -247,6 +248,5 @@ events.on("button:pay", () => {
 
 
 events.on("button:success", () => {
-  cartModel.replace();
   modal.close();
 });
